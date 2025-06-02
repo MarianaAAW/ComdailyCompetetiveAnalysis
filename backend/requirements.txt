@@ -1,0 +1,11 @@
+fastapi
+uvicorn[standard]
+sqlalchemy
+databases
+pydantic
+python-multipart
+aiofiles
+jinja2
+pdfkit
+PyPDF2
+reportlab
