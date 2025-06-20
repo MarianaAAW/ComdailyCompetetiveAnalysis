@@ -11,7 +11,7 @@ from sqlalchemy.orm import Session
 from typing import List
 import shutil
 import json
-from .. import crud, database, models, schemas, utils
+from backend import crud, database, models, schemas, utils
 from backend.models import Brand, Newsletter
 
 from backend.schemas import AnalysisResultResponse
