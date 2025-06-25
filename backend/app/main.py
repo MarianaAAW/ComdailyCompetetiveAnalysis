@@ -5,7 +5,7 @@ import json
 # Add the parent folder ('backend') to sys.path
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form
+from fastapi import FastAPI, Depends, HTTPException, UploadFile, File, Form,APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session
 from typing import List
@@ -20,6 +20,7 @@ from backend.schemas import AnalysisResultResponse
 models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI(title="Brand Analysis API")
+api_router = APIRouter(prefix="/api")
 
 app.add_middleware(
     CORSMiddleware,
@@ -133,3 +134,5 @@ def perform_analysis(brand_id: int, db: Session = Depends(get_db)):
 @app.get("/analysis/{brand_id}", response_model=List[schemas.AnalysisResult])
 def get_analysis(brand_id: int, db: Session = Depends(get_db)):
     return crud.get_analysis_for_brand(db, brand_id)
+
+app.include_router(api_router)

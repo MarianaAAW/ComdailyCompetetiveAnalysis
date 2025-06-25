@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { getBrands } from '../../services/brandService';
 
 const BrandList = () => {
@@ -17,7 +18,9 @@ const BrandList = () => {
       <h2>Brand List</h2>
       <ul>
         {brands.map(brand => (
-          <li key={brand.id}>{brand.name}</li>
+         <li key={brand.id}>
+            <Link to={`/brands/${brand.id}`}>{brand.name}</Link>
+         </li>
         ))}
       </ul>
     </div>

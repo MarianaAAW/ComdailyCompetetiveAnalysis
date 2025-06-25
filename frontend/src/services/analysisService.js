@@ -5,8 +5,13 @@ export const createAnalysis = async (analysisData) => {
   return response.data;
 };
 
+// export const getAnalysisByBrand = async (brandId) => {
+//   const response = await api.get(`/analysis/brand/${brandId}`);
+//   return response.data;
+// };
+
 export const getAnalysisByBrand = async (brandId) => {
-  const response = await api.get(`/analysis/brand/${brandId}`);
+  const response = await api.get(`/brands/${brandId}/analysis`);
   return response.data;
 };
 
