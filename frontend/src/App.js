@@ -5,6 +5,9 @@ import HomePage from './pages/HomePage';
 import BrandsPage from './pages/BrandsPage';
 import BrandDetailPage from './pages/BrandDetailPage';
 import NewsletterPage from './pages/NewsletterPage';
+import NewsletterAnalysisPage from './pages/NewsletterAnalysisPage';
+import CompareBrandsPage from './pages/CompareBrandsPage';
+import AnalysisResultPage from './pages/AnalysisResultPage';
 import './App.css';
 
 function App() {
@@ -18,6 +21,9 @@ function App() {
             <Route path="/brands" element={<BrandsPage />} />
             <Route path="/brands/:brandId" element={<BrandDetailPage />} />
             <Route path="/newsletters" element={<NewsletterPage />} />
+            <Route path="/newsletter-analysis" element={<NewsletterAnalysisPage />} />
+            <Route path="/compare-brands" element={<CompareBrandsPage />} />
+            <Route path="/analysis-result" element={<AnalysisResultPage />} />
           </Routes>
         </main>
       </div>
