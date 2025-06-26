@@ -36,6 +36,48 @@ function getTopBottomAttributes(data) {
   };
 }
 
+const LEGEND_BLUE = '#1976d2'; // new blue color from the image
+
+const Legend = () => (
+  <Box sx={{
+    bgcolor: '#F8BBD0',
+    p: 2,
+    borderRadius: '12px',
+    width: 180,
+    minWidth: 150,
+    fontWeight: 700,
+    fontFamily: 'Arial, sans-serif',
+    fontSize: 16,
+    mr: 4,
+    mt: 2
+  }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+      <Box sx={{ width: 28, height: 28, bgcolor: LEGEND_BLUE, mr: 1 }} />
+      <span style={{ fontWeight: 700 }}>Already has</span>
+    </Box>
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+      <Box sx={{ width: 28, height: 28, bgcolor: '#ff7043', mr: 1 }} />
+      <span style={{ fontWeight: 700 }}>Should have</span>
+    </Box>
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+      <Box sx={{ width: 28, height: 28, bgcolor: '#b388b3', mr: 1 }} />
+      <span style={{ fontWeight: 700 }}>Both have the same value</span>
+    </Box>
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+      <Box sx={{ width: 28, height: 28, border: '1px solid #000', mr: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        1
+      </Box>
+      <span style={{ fontWeight: 700 }}>BEST</span>
+    </Box>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ width: 28, height: 28, border: '1px solid #000', mr: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        5
+      </Box>
+      <span style={{ fontWeight: 700 }}>WORST</span>
+    </Box>
+  </Box>
+);
+
 const AnalysisResultPage = () => {
   const brandNames = [localStorage.getItem('brand1Name') || 'Brand 1', localStorage.getItem('brand2Name') || 'Brand 2'];
   const [brand1, brand2] = useMemo(() => [generateBrandData(), generateBrandData()], []);
@@ -124,83 +166,86 @@ const AnalysisResultPage = () => {
   };
 
   return (
-    <Box sx={{ p: 3, minHeight: '100vh', bgcolor: '#F8BBD0' }}>
-      <Typography variant="h3" sx={{ fontFamily: 'Pacifico, cursive', color: '#C2185B', mb: 4, textAlign: 'center' }}>
-        Analysis Results
-      </Typography>
-      <Grid container spacing={4} justifyContent="center">
-        {[brand1, brand2].map((brand, idx) => (
-          <Grid item xs={12} md={5} key={idx}>
-            <Paper sx={{ p: 2, mb: 2, borderRadius: '20px', bgcolor: '#fff' }}>
-              <Typography variant="h5" sx={{ fontFamily: 'Pacifico, cursive', color: '#C2185B', mb: 2, textAlign: 'center' }}>
-                {brandNames[idx]}
-              </Typography>
-              {/* Numbers and circles in a column for perfect alignment */}
-              <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', mb: 1 }}>
-                <Box sx={{ width: 120 }} />
-                <Box sx={{ display: 'flex', flexDirection: 'row', gap: 0.1 }}>
-                  {[1,2,3,4,5].map(val => (
-                    <Box key={val} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 18 }}>
-                      <Box sx={{ color: '#C2185B', fontWeight: 600, fontSize: 16 }}>{val}</Box>
-                      <Box sx={{ height: 2 }} />
+    <Box sx={{ display: 'flex', flexDirection: 'row', bgcolor: '#F8BBD0', minHeight: '100vh' }}>
+      <Legend />
+      <Box sx={{ flex: 1, p: 3 }}>
+        <Typography variant="h3" sx={{ fontFamily: 'Pacifico, cursive', color: '#C2185B', mb: 4, textAlign: 'center' }}>
+          Analysis Results
+        </Typography>
+        <Grid container spacing={4} justifyContent="center">
+          {[brand1, brand2].map((brand, idx) => (
+            <Grid item xs={12} md={5} key={idx}>
+              <Paper sx={{ p: 2, mb: 2, borderRadius: '20px', bgcolor: '#fff' }}>
+                <Typography variant="h5" sx={{ fontFamily: 'Pacifico, cursive', color: '#C2185B', mb: 2, textAlign: 'center' }}>
+                  {brandNames[idx]}
+                </Typography>
+                {/* Numbers and circles in a column for perfect alignment */}
+                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', mb: 1 }}>
+                  <Box sx={{ width: 120 }} />
+                  <Box sx={{ display: 'flex', flexDirection: 'row', gap: 0.1 }}>
+                    {[1,2,3,4,5].map(val => (
+                      <Box key={val} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 18 }}>
+                        <Box sx={{ color: '#C2185B', fontWeight: 600, fontSize: 16 }}>{val}</Box>
+                        <Box sx={{ height: 2 }} />
+                      </Box>
+                    ))}
+                  </Box>
+                  <Box sx={{ width: 120 }} />
+                </Box>
+                <Box sx={{ display: 'flex', flexDirection: 'column' }}>
+                  {brand.map((attr, i) => (
+                    <Box key={i} sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
+                      <Box sx={{ width: 120, fontSize: 13, textAlign: 'right', pr: 1 }}>{attr.left}</Box>
+                      <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
+                        {[1,2,3,4,5].map(val => (
+                          <Box key={val} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 18 }}>
+                            <Box sx={{ width: 14, height: 14, border: '1px solid #ccc', borderRadius: '50%', bgcolor: '#fff', position: 'relative' }}>
+                              {attr.ist === val && <Box sx={{ width: 10, height: 10, bgcolor: '#1976d2', borderRadius: '50%', position: 'absolute', top: 2, left: 2 }} />}
+                              {attr.soll === val && <Box sx={{ width: 10, height: 10, bgcolor: '#ff7043', borderRadius: '50%', position: 'absolute', top: 2, left: 2, opacity: attr.ist === val ? 0.5 : 1 }} />}
+                            </Box>
+                          </Box>
+                        ))}
+                      </Box>
+                      <Box sx={{ width: 120, fontSize: 13, textAlign: 'left', pl: 1 }}>{attr.right}</Box>
                     </Box>
                   ))}
                 </Box>
-                <Box sx={{ width: 120 }} />
-              </Box>
-              <Box sx={{ display: 'flex', flexDirection: 'column' }}>
-                {brand.map((attr, i) => (
-                  <Box key={i} sx={{ display: 'flex', alignItems: 'center', mb: 0.5 }}>
-                    <Box sx={{ width: 120, fontSize: 13, textAlign: 'right', pr: 1 }}>{attr.left}</Box>
-                    <Box sx={{ display: 'flex', alignItems: 'center', ml: 1 }}>
-                      {[1,2,3,4,5].map(val => (
-                        <Box key={val} sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', width: 18 }}>
-                          <Box sx={{ width: 14, height: 14, border: '1px solid #ccc', borderRadius: '50%', bgcolor: '#fff', position: 'relative' }}>
-                            {attr.ist === val && <Box sx={{ width: 10, height: 10, bgcolor: '#1976d2', borderRadius: '50%', position: 'absolute', top: 2, left: 2 }} />}
-                            {attr.soll === val && <Box sx={{ width: 10, height: 10, bgcolor: '#ff7043', borderRadius: '50%', position: 'absolute', top: 2, left: 2, opacity: attr.ist === val ? 0.5 : 1 }} />}
-                          </Box>
-                        </Box>
-                      ))}
-                    </Box>
-                    <Box sx={{ width: 120, fontSize: 13, textAlign: 'left', pl: 1 }}>{attr.right}</Box>
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+        <Grid container spacing={4} justifyContent="center">
+          {[brand1Attr, brand2Attr].map((attrSet, idx) => (
+            <Grid item xs={12} md={5} key={idx}>
+              <Paper sx={{ p: 2, borderRadius: '20px', bgcolor: '#fff' }}>
+                <Typography variant="h6" sx={{ fontFamily: 'Pacifico, cursive', color: '#C2185B', mb: 2 }}>
+                  {brandNames[idx]}: Highest Ranked Attributes
+                </Typography>
+                {attrSet.top.map((attr, i) => (
+                  <Box key={i} sx={{ mb: 1 }}>
+                    <b>{i+1}. {attr.left}</b>
                   </Box>
                 ))}
-              </Box>
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
-      <Grid container spacing={4} justifyContent="center">
-        {[brand1Attr, brand2Attr].map((attrSet, idx) => (
-          <Grid item xs={12} md={5} key={idx}>
-            <Paper sx={{ p: 2, borderRadius: '20px', bgcolor: '#fff' }}>
-              <Typography variant="h6" sx={{ fontFamily: 'Pacifico, cursive', color: '#C2185B', mb: 2 }}>
-                {brandNames[idx]}: Highest Ranked Attributes
-              </Typography>
-              {attrSet.top.map((attr, i) => (
-                <Box key={i} sx={{ mb: 1 }}>
-                  <b>{i+1}. {attr.left}</b>
-                </Box>
-              ))}
-              <Typography variant="h6" sx={{ fontFamily: 'Pacifico, cursive', color: '#C2185B', mt: 3, mb: 2 }}>
-                Lowest Ranked & Suggestions
-              </Typography>
-              {attrSet.bottom.map((attr, i) => (
-                <Box key={i} sx={{ mb: 1 }}>
-                  <b>{i+1}. {attr.left}</b> — Try to improve this attribute by focusing on related communication and actions.
-                </Box>
-              ))}
-            </Paper>
-          </Grid>
-        ))}
-      </Grid>
-      <Box sx={{ display: 'flex', justifyContent: 'center', gap: 4, mt: 6 }}>
-        <Button variant="contained" onClick={handleDownload} sx={{ bgcolor: '#C5A3C5', color: '#fff', borderRadius: '20px', fontFamily: 'Pacifico, cursive', px: 4, fontSize: '1.1rem', boxShadow: 2, '&:hover': { bgcolor: '#C2185B' } }}>
-          Download Analysis Results
-        </Button>
-        <Button variant="contained" onClick={handleSaveToDashboard} sx={{ bgcolor: '#C5A3C5', color: '#fff', borderRadius: '20px', fontFamily: 'Pacifico, cursive', px: 4, fontSize: '1.1rem', boxShadow: 2, '&:hover': { bgcolor: '#C2185B' } }}>
-          Save to Dashboard
-        </Button>
+                <Typography variant="h6" sx={{ fontFamily: 'Pacifico, cursive', color: '#C2185B', mt: 3, mb: 2 }}>
+                  Lowest Ranked & Suggestions
+                </Typography>
+                {attrSet.bottom.map((attr, i) => (
+                  <Box key={i} sx={{ mb: 1 }}>
+                    <b>{i+1}. {attr.left}</b> — Try to improve this attribute by focusing on related communication and actions.
+                  </Box>
+                ))}
+              </Paper>
+            </Grid>
+          ))}
+        </Grid>
+        <Box sx={{ display: 'flex', justifyContent: 'center', gap: 4, mt: 6 }}>
+          <Button variant="contained" onClick={handleDownload} sx={{ bgcolor: '#C5A3C5', color: '#fff', borderRadius: '20px', fontFamily: 'Pacifico, cursive', px: 4, fontSize: '1.1rem', boxShadow: 2, '&:hover': { bgcolor: '#C2185B' } }}>
+            Download Analysis Results
+          </Button>
+          <Button variant="contained" onClick={handleSaveToDashboard} sx={{ bgcolor: '#C5A3C5', color: '#fff', borderRadius: '20px', fontFamily: 'Pacifico, cursive', px: 4, fontSize: '1.1rem', boxShadow: 2, '&:hover': { bgcolor: '#C2185B' } }}>
+            Save to Dashboard
+          </Button>
+        </Box>
       </Box>
     </Box>
   );

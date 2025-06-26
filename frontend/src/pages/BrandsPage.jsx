@@ -3,6 +3,8 @@ import BrandList from '../components/Brand/BrandList';
 import BrandForm from '../components/Brand/BrandForm';
 import { Box, Typography, Paper, Grid } from '@mui/material';
 
+const LEGEND_BLUE = '#1976d2';
+
 const ATTRIBUTES_LEFT = [
   'Bodenständig', 'Familienorientiert', 'Kleinstädtisch', 'Ehrlich', 'Aufrichtig', 'Echt', 'Gesund', 'Ursprünglich',
   'Heiter', 'Gefühlvoll', 'Freundlich', 'Gewagt', 'Modisch', 'Aufregend', 'Temperamentvoll', 'Cool', 'Jung',
@@ -104,6 +106,45 @@ const AnalysisDisplay = ({ analysis }) => {
   );
 };
 
+const Legend = () => (
+  <Box sx={{
+    bgcolor: '#F8BBD0',
+    p: 2,
+    borderRadius: '12px',
+    width: 220,
+    minWidth: 180,
+    fontWeight: 700,
+    fontFamily: 'Arial, sans-serif',
+    fontSize: 16,
+    boxShadow: 2
+  }}>
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+      <Box sx={{ width: 28, height: 28, bgcolor: LEGEND_BLUE, mr: 1 }} />
+      <span style={{ fontWeight: 700 }}>Already has</span>
+    </Box>
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+      <Box sx={{ width: 28, height: 28, bgcolor: '#ff7043', mr: 1 }} />
+      <span style={{ fontWeight: 700 }}>Should have</span>
+    </Box>
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+      <Box sx={{ width: 28, height: 28, bgcolor: '#b388b3', mr: 1 }} />
+      <span style={{ fontWeight: 700 }}>Both have the same value</span>
+    </Box>
+    <Box sx={{ display: 'flex', alignItems: 'center', mb: 1 }}>
+      <Box sx={{ width: 28, height: 28, border: '1px solid #000', mr: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        1
+      </Box>
+      <span style={{ fontWeight: 700 }}>BEST</span>
+    </Box>
+    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+      <Box sx={{ width: 28, height: 28, border: '1px solid #000', mr: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        5
+      </Box>
+      <span style={{ fontWeight: 700 }}>WORST</span>
+    </Box>
+  </Box>
+);
+
 const BrandsPage = () => {
   const [analyses, setAnalyses] = useState([]);
 
@@ -129,21 +170,28 @@ const BrandsPage = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Brands</h1>
-      <BrandForm />
-      <BrandList />
-      {analyses.length > 0 && (
-        <div>
-          <Typography variant="h4" sx={{ color: '#C2185B', fontFamily: 'Pacifico, cursive', mt: 4, mb: 2 }}>
-            Saved Analyses
-          </Typography>
-          {analyses.map((analysis, idx) => (
-            <AnalysisDisplay key={analysis.timestamp || idx} analysis={analysis} />
-          ))}
-        </div>
-      )}
-    </div>
+    <Box sx={{ position: 'relative', bgcolor: '#F8BBD0', minHeight: '100vh', pb: 4 }}>
+      <Box sx={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', px: 3, pt: 3 }}>
+        <h1 style={{ color: '#C2185B', margin: 0 }}>Brands</h1>
+        <Box sx={{ position: 'relative', top: 0, right: 0 }}>
+          <Legend />
+        </Box>
+      </Box>
+      <Box sx={{ px: 3 }}>
+        <BrandForm />
+        <BrandList />
+        {analyses.length > 0 && (
+          <div>
+            <Typography variant="h4" sx={{ color: '#C2185B', fontFamily: 'Pacifico, cursive', mt: 4, mb: 2 }}>
+              Saved Analyses
+            </Typography>
+            {analyses.map((analysis, idx) => (
+              <AnalysisDisplay key={analysis.timestamp || idx} analysis={analysis} />
+            ))}
+          </div>
+        )}
+      </Box>
+    </Box>
   );
 };
 
