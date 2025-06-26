@@ -15,21 +15,7 @@ const BrandForm = () => {
     }
   };
 
-  return (
-    <div>
-      <h2>Create Brand</h2>
-      {error && <div>{error}</div>}
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
-        <button type="submit">Create</button>
-      </form>
-    </div>
-  );
+  return null;
 };
 
 export default BrandForm;
